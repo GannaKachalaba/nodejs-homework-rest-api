@@ -8,13 +8,7 @@ const updateContact = async (req, res) => {
     error.status = 404;
     throw error;
   }
-  res.json({
-    status: "success",
-    code: 200,
-    data: {
-      result,
-    },
-  });
+  res.json(result);
 };
 
 module.exports = updateContact;

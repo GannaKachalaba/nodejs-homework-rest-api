@@ -8,14 +8,7 @@ const removeContact = async (req, res) => {
     error.status = 404;
     throw error;
   }
-  res.json({
-    status: "success",
-    code: 200,
-    message: "contact deleted",
-    data: {
-      result,
-    },
-  });
+  res.json({ message: "contact deleted " });
 };
 
 module.exports = removeContact;

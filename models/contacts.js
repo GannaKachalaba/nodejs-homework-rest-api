@@ -23,15 +23,11 @@ const removeContact = async (id) => {
   }
 
   const [removeContact] = contacts.splice(updatedContacts, 1);
-  await fs.writeFile(contactsPath, JSON.stringify(contacts));
+  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
   return removeContact;
 };
 
 const addContact = async ({ name, email, phone }) => {
-  if (!name) {
-    throw new Error("Missing required name field");
-  }
-
   const contacts = await listContacts();
   const newContact = {
     id: uuid(),
@@ -40,7 +36,7 @@ const addContact = async ({ name, email, phone }) => {
     phone,
   };
   contacts.push(newContact);
-  await fs.writeFile(contactsPath, JSON.stringify(contacts));
+  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
   return newContact;
 };
 
@@ -59,9 +55,10 @@ const updateContact = async (id, body) => {
   const contactToUpdate = contacts[contactIndex];
   Object.assign(contactToUpdate, body);
 
-  await fs.writeFile(contactsPath, JSON.stringify(contacts));
+  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
   return contactToUpdate;
 };
+
 module.exports = {
   listContacts,
   getById,
