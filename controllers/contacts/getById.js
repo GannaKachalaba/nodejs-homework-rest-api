@@ -1,5 +1,7 @@
 const { httpError, ctrlWrapper } = require("../../helpers");
-const { Contact } = require("../../models/contact");
+const {
+  ModelCon: { Contact },
+} = require("../../models");
 
 const getById = async (req, res) => {
   const { id } = req.params;
@@ -7,7 +9,7 @@ const getById = async (req, res) => {
   if (!result) {
     throw httpError(404, "Not found");
   }
-  res.status(201).json(result);
+  res.status(200).json(result);
 };
 
 module.exports = {

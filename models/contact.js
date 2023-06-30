@@ -1,8 +1,6 @@
 const { Schema, model } = require("mongoose");
+const { handleSchemaValidationError } = require("../helpers");
 const Joi = require("joi");
-const { handleSchemaValidationErrors } = require("../helpers");
-
-// const phoneRegexp =  /^\(\d{3}\) \d{3}-\d{4}$/;
 
 const contactSchema = Schema(
   {
@@ -16,9 +14,7 @@ const contactSchema = Schema(
     },
     phone: {
       type: String,
-      // match: phoneRegexp,
       required: true,
-      // unique: true,
     },
     favorite: {
       type: Boolean,
@@ -27,34 +23,37 @@ const contactSchema = Schema(
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
-      require: true,
+      required: true,
     },
   },
   { versionKey: false, timestamps: true }
 );
 
-contactSchema.post("save", handleSchemaValidationErrors);
+contactSchema.post("save", handleSchemaValidationError);
 
 const addSchema = Joi.object({
   name: Joi.string()
-    .required()
-    .messages({ "any.required": `missing required name field` }),
+    .messages({ "any.required": `missing required name field` })
+    .required(),
   email: Joi.string()
-    .required()
-    .messages({ "any.required": `missing required email field` }),
+    .messages({
+      "any.required": `missing required email field`,
+    })
+    .required(),
   phone: Joi.string()
-    // .pattern(phoneRegexp)
-    .required()
-    .messages({ "any.required": `missing required phone field` }),
+    .messages({
+      "any.required": `missing required phone field`,
+    })
+    .required(),
   favorite: Joi.boolean().messages({
-    "any.required": `missing field favorite`,
+    "any.required": `missing required favorite field`,
   }),
 });
 
 const updateFavoriteSchema = Joi.object({
-  favorite: Joi.boolean()
-    .required()
-    .messages({ "any.required": `missing required field favorite` }),
+  favorite: Joi.boolean().required().messages({
+    "any.required": `missing required favorite field`,
+  }),
 });
 
 const schemas = {
@@ -62,7 +61,7 @@ const schemas = {
   updateFavoriteSchema,
 };
 
-const Contact = model("Contact", contactSchema);
+const Contact = model("contact", contactSchema);
 
 module.exports = {
   Contact,
