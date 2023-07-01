@@ -4,10 +4,10 @@ const { handleSchemaValidationError } = require("../helpers");
 
 const userSchema = new Schema(
   {
-    name: {
-      type: String,
-      required: true,
-    },
+    // name: {
+    //   type: String,
+    //   required: true,
+    // },
     password: {
       type: String,
       required: [true, "Set password for user"],
@@ -37,7 +37,7 @@ const userSchema = new Schema(
 userSchema.post("save", handleSchemaValidationError);
 
 const joiRegisterSchema = Joi.object({
-  name: Joi.string().required(),
+  // name: Joi.string().required(),
   password: Joi.string().required().min(6),
   email: Joi.string().required(),
 });
