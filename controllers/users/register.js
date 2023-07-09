@@ -1,7 +1,7 @@
 const gravatar = require("gravatar");
 const bcrypt = require("bcrypt");
 const { httpError, ctrlWrapper, sendEmail } = require("../../helpers");
-const { uuid } = require("uuid");
+const { v4: uuid } = require("uuid");
 const {
   ModelUs: { User },
 } = require("../../models");
