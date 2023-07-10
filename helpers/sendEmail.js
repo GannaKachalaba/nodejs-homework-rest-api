@@ -1,28 +1,26 @@
-const nodemailer = require("nodemailer");
+const sgEmail = require("@sendgrid/mail");
 require("dotenv").config();
 
-const { META_PASSWORD } = process.env;
+const { SANDGRID_API_KEY } = process.env;
 
-const nodemailerConfig = {
-  host: "smtp.meta.ua",
-  port: 587,
-  secure: true,
-  auth: {
-    user: "kachalabahanna@meta.ua",
-    pass: META_PASSWORD,
-  },
-  tls: {
-    rejectUnauthorized: true,
-  },
-};
-
-const transporter = nodemailer.createTransport(nodemailerConfig);
+sgEmail.setApiKey(SANDGRID_API_KEY);
 
 const sendEmail = async (data) => {
-  const email = { ...data, from: "kachalabahanna@meta.ua" };
-  await transporter.sendEmail(email);
-
+  const email = { ...data, from: "kacalabaanna@gmail.com" };
+  await sgEmail.send(email);
   return true;
 };
 
 module.exports = sendEmail;
+
+// const email = {
+//   to: "yowasof134@kameili.com",
+//   from: "kacalabaanna@gmail.com",
+//   subject: "Test email",
+//   html: "<p><strong>Test email</strong>from localhost:3000</p>",
+// };
+
+// sgEmail
+//   .send(email)
+//   .then(() => console.log("Email send seccess"))
+//   .catch((error) => console.log(error.message));

@@ -9,9 +9,9 @@ const verifyEmail = async (req, res) => {
   if (!user) {
     throw httpError(404, "User not found");
   }
-  res.status(404).json({
-    message: "User not found",
-  });
+  // res.status(404).json({
+  //   message: "User not found",
+  // });
   await User.findByIdAndUpdate(user._id, {
     verify: true,
     varificationToken: "",

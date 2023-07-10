@@ -1,10 +1,13 @@
 const gravatar = require("gravatar");
 const bcrypt = require("bcrypt");
-const { httpError, ctrlWrapper, sendEmail } = require("../../helpers");
+const { httpError, ctrlWrapper } = require("../../helpers");
 const { v4: uuid } = require("uuid");
 const {
   ModelUs: { User },
 } = require("../../models");
+
+const { BASE_URL } = process.env;
+const sendEmail = require("../../helpers/sendEmail");
 
 const register = async (req, res) => {
   const { email, password } = req.body;
@@ -23,19 +26,18 @@ const register = async (req, res) => {
     verificationToken,
   });
 
-  const mail = {
+  const verifyEmail = {
     to: email,
-    subject: "Confirmation of registration on the website!",
-    html: `<a href="http://localhost:3000/api/auth/verify/${verificationToken}" target="_blank"a>Натисніть для підтверження sendEmail</a>`,
+    subject: "Verify email",
+    html: `<a target="_blank" href="${BASE_URL}/users/verify/${verificationToken}">Click verify email</a>`,
   };
 
-  await sendEmail(mail);
+  await sendEmail(verifyEmail);
 
   res.status(201).json({
     user: {
       email: newUser.email,
       subscription: newUser.subscription,
-      avatarURL,
     },
   });
 };
